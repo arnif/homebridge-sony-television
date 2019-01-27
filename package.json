@@ -15,6 +15,7 @@
   "author": "Arni Fannar",
   "license": "ISC",
   "dependencies": {
+    "request": "^2.88.0",
     "sony-bravia-tv-remote-v2": "^2.0.0"
   }
 }
