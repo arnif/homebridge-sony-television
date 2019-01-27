@@ -1,4 +1,5 @@
 var BraviaRemoteControl = require("sony-bravia-tv-remote-v2");
+var request = require("request");
 var Service, Characteristic, VolumeCharacteristic;
 
 const inputMap = {
@@ -48,6 +49,8 @@ function SonyBraviaTvAccessory(log, config) {
   this.remote = new BraviaRemoteControl(this.ipaddress, this.port, this.psk);
 
   this.enabledServices = [];
+
+  this.isOn = false;
 
   this.tvService = new Service.Television(this.name, "Television");
 
@@ -122,7 +125,7 @@ SonyBraviaTvAccessory.prototype.setInput = function(map, newValue, callback) {
   if (!remoteAction) {
     callback(null);
   } else {
-    // TODO check if on before sending command...
+    // TODO check if on before sending command...or not?
     this.remote.sendAction(remoteAction).then(rr => {
       //   this.log.debug("rr", rr);
       callback();
@@ -131,7 +134,28 @@ SonyBraviaTvAccessory.prototype.setInput = function(map, newValue, callback) {
 };
 
 SonyBraviaTvAccessory.prototype.getPowerState = function(callback) {
-  callback(null, true); // TODO check if actually on....
+  request.post(
+    {
+      "Content-Type": "application/json",
+      url: `http://${this.ipaddress}/sony/system`,
+      json: {
+        id: 20,
+        method: "getPowerStatus",
+        version: "1.0",
+        params: [""]
+      }
+    },
+    function(err, httpResponse, response) {
+      var result = response.result;
+      if (result.length > 0) {
+        var status = result[0].status;
+        this.isOn = status === "active";
+        callback(null, this.isOn);
+      } else {
+        callback(null, false);
+      }
+    }
+  );
 };
 
 SonyBraviaTvAccessory.prototype.setPowerState = function(state, callback) {
