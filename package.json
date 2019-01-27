@@ -1,6 +1,6 @@
 {
   "name": "homebridge-sony-television",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "HomeKit TV for Sony Bravia TV",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "homebridge-plugin"
   ],
   "engines": {
-    "homebridge": ">=0.4.9"
+    "homebridge": ">=0.4.46"
   },
   "author": "Arni Fannar",
   "license": "ISC",
