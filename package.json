@@ -1,6 +1,6 @@
 {
   "name": "homebridge-sony-television",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "HomeKit TV for Sony Bravia TV",
   "main": "index.js",
   "scripts": {
