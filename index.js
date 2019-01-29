@@ -146,6 +146,10 @@ SonyBraviaTvAccessory.prototype.getPowerState = function(callback) {
       }
     },
     function(err, httpResponse, response) {
+      if (!response) {
+        callback(null);
+        return;
+      }
       var result = response.result;
       if (result.length > 0) {
         var status = result[0].status;
